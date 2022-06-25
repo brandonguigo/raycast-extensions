@@ -1,4 +1,5 @@
 import fs from "fs";
+import Logger from "./logger";
 
 class JsonParser {
     static parseJSONConfig(filename: string) {
@@ -7,7 +8,7 @@ class JsonParser {
             const conf = JSON.parse(rawConf)
             return conf
         } catch (e: any) {
-            console.debug(e.message)
+            Logger.error(e.message)
             return null
         }
 
@@ -18,7 +19,7 @@ class JsonParser {
             const jsonString = JSON.stringify(content)
             fs.writeFileSync(filename, jsonString, 'utf8')
         } catch (e: any) {
-            console.debug(e.message)
+            Logger.error(e.message)
             return null
         }
     }

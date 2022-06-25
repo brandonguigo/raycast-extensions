@@ -1,10 +1,10 @@
-import * as fs from "fs";
 import JsonParser from "./utils/json-parser";
+import Logger from "./utils/logger";
 
 //DONE(conf): config persistance in JSON file
 //DONE(log): configure logger
-//TODO(conf): reload config every 10 minutes
-//TODO(conf): manual reload
+//DONE(conf): reload config each time the command is run
+//DROP(conf): manual reload
 //TODO(app): create app and persist it
 //TODO(app): edit app and persist it
 //TODO(app): delete app and persist
@@ -14,14 +14,11 @@ import JsonParser from "./utils/json-parser";
 
 const CONFIG_PATH = "../config.json"
 export default function Command() {
-    console.info("Parsing JSON Configuration")
+    Logger.info("Parsing JSON Configuration")
     const config = JsonParser.parseJSONConfig(CONFIG_PATH)
-    console.info(config)
+    Logger.info(config, "configuration :")
 
-    console.debug("TOTO " + process.env.LOG_LEVEL)
-
-
-    console.info("Writing JSON Configuration")
+    Logger.info("Writing JSON Configuration")
     JsonParser.writeJSONConfig(CONFIG_PATH, config)
     return
 }
