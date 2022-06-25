@@ -1,12 +1,12 @@
 import {App} from "../../../entities/app";
 import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
-import {useState} from "react";
+import {nanoid} from "nanoid";
 
 function CreateAppForm(props: { onCreate: (app: App) => void}){
     const { pop } = useNavigation();
 
     function handleSubmit(values: { name: string, command: string }) {
-        props.onCreate({ name: values.name, command: values.command });
+        props.onCreate({ id: nanoid(), name: values.name, command: values.command });
         pop();
     }
 
