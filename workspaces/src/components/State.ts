@@ -43,9 +43,9 @@ class State {
    static import(filename: string) {
       const state =  new State(
          configJson.apps.map((value, _) => new App(
-             value.id,
              value.name,
-             value.command
+             value.command,
+             value.id
          )),
       )
       state.processWorkspaces(configJson.workspaces)

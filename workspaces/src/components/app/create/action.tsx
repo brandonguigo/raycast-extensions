@@ -1,8 +1,8 @@
 import { Action, Icon } from "@raycast/api";
-import {App} from "../../../entities/app";
+import {AppInterface} from "../../../entities/app";
 import CreateAppForm from "./form";
 
-function CreateAppAction(props: { defaultTitle?: string; onCreate: (app: App) => void }) {
+function CreateAppAction(props: { defaultTitle?: string; onCreate: (app: AppInterface) => void }) {
     return (
         <Action.Push
             icon={Icon.Pencil}

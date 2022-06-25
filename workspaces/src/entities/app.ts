@@ -2,13 +2,17 @@ import configJson from '../../assets/config.json';
 import {nanoid} from "nanoid";
 import Utils from "../utils/utils";
 
+interface AppInterface {
+    name: string;
+    command: string;
+}
 class App {
-    public id: number;
+    public id: number = Utils.generateUID();
     public name = "";
     public command = "";
 
-    constructor(id: number, name: string, command: string) {
-        this.id = id;
+    constructor(name: string, command: string, id?: number) {
+        if (id != undefined) this.id = id;
         this.name = name;
         this.command = command;
     }
@@ -23,9 +27,9 @@ class App {
 
     static import(payload: typeof configJson.apps[1]) {
         return new App(
-            payload.id,
             payload.name,
-            payload.command
+            payload.command,
+            payload.id
         )
     }
 
@@ -35,3 +39,4 @@ class App {
 }
 
 export default App;
+export type {AppInterface};

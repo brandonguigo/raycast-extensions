@@ -22,6 +22,15 @@ class Workspace {
             "apps": this.apps.map((val, _) => val.export()),
         }
     }
+
+    public toString() {
+        return JSON.stringify({
+            "id": this.id,
+            "name": this.name,
+            "path": this.path,
+            "apps": this.apps,
+            })
+    }
 }
 
 export default Workspace;

@@ -1,10 +1,6 @@
-import {useCallback} from "react";
-import { nanoid } from "nanoid";
-
 class CreateAppHandler {
-    static handleCreate(config: object) {
+    static handleCreate() {
 
-        return config
     }
 }
 
