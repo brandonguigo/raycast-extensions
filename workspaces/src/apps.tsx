@@ -2,7 +2,7 @@ import Logger from "./utils/logger";
 import {List, ActionPanel} from "@raycast/api";
 import {CreateAppAction} from "./components";
 import CreateAppHandler from "./components/app/create/handler";
-import State from "./components/State";
+import State from "./entities/State";
 import {useState} from "react";
 import EmptyView from "./components/empty-view";
 
@@ -25,9 +25,9 @@ export default function Command() {
 function buildUI(config: State) {
     return (
     <List>
-        <EmptyView filter={config.filter} workspaces={config.workspaces} searchText={config.searchText} onCreate={CreateAppHandler.handleCreate} />
-        {config.workspaces.map((workspace, index) => (
-            <List.Item key={index} title={workspace.name} />
+        <EmptyView contentType="Applications" filter={config.filter} content={config.apps} searchText={config.searchText} onCreate={CreateAppHandler.handleCreate} />
+        {config.apps.map((apps, index) => (
+            <List.Item key={index} title={apps.name} />
         ))}
         </List>
     )

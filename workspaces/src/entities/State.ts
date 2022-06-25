@@ -1,10 +1,10 @@
 //tslint
-import App from "../entities/app";
+import App from "./app";
 import fs from "fs";
 import Logger from "../utils/logger";
 import configJson from '../../assets/config.json';
-import Workspace from "../entities/workspace";
-import Filter from "../entities/filter";
+import Workspace from "./workspace";
+import Filter from "./filter";
 
 class State {
    public apps: App[] = [];

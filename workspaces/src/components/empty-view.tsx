@@ -2,18 +2,26 @@ import { ActionPanel, List } from "@raycast/api";
 import App, {AppInterface} from "../entities/app";
 import Filter from "../entities/filter";
 import CreateAppAction from "./app/create/action";
-import Workspace from "../entities/workspace";
 
-function EmptyView(props: { workspaces: Workspace[]; filter?: Filter; searchText: string; onCreate: (app: AppInterface) => void }) {
-    if (props.workspaces.length == 0) {
+function EmptyView(props: { content: any[]; filter?: Filter; searchText: string; contentType: string; onCreate: (app: AppInterface) => void }) {
+    function getAction(contentType: string) {
+        switch (contentType) {
+            case "Workspaces":
+                return null
+                break;
+            case "Applications":
+                return <CreateAppAction defaultTitle={props.searchText} onCreate={props.onCreate} />
+        }
+    }
+    if (props.content.length == 0) {
         return (
             <List.EmptyView
                 icon="😕"
-                title="No matching workspaces found"
-                description={`Can't find a workspace matching ${props.searchText}.\nCreate it now!`}
+                title={`No matching ${props.contentType} found`}
+                description={`Can't find ${props.contentType} matching ${props.searchText}.\nCreate it now!`}
                 actions={
                     <ActionPanel>
-                        <CreateAppAction defaultTitle={props.searchText} onCreate={props.onCreate} />
+                        ${getAction(props.contentType)}
                     </ActionPanel>
                 }
             />
