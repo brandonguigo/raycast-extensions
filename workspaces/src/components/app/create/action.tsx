@@ -1,6 +1,6 @@
 import { Action, Icon } from "@raycast/api";
-import {App} from "../entities/app";
-import CreateAppForm from "./create-app-form";
+import {App} from "../../../entities/app";
+import CreateAppForm from "./form";
 
 function CreateAppAction(props: { defaultTitle?: string; onCreate: (app: App) => void }) {
     return (

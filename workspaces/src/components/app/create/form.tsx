@@ -1,4 +1,4 @@
-import {App} from "../entities/app";
+import {App} from "../../../entities/app";
 import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
 import {useState} from "react";
 
