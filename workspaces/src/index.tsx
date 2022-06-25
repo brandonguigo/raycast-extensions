@@ -1,11 +1,10 @@
-import JsonParser from "./utils/json-parser";
 import Logger from "./utils/logger";
 import {List, ActionPanel} from "@raycast/api";
 import {CreateAppAction} from "./components";
 import CreateAppHandler from "./components/app/create/handler";
 import State from "./components/State";
 import {useState} from "react";
-import Workspace from "./entities/workspace";
+import EmptyView from "./components/empty-view";
 
 
 const CONFIG_FILE = "assets/config.json"
@@ -15,7 +14,7 @@ export default function Command() {
     const [config, setConfig] = useState<State>(State.import(CONFIG_FILE))
     Logger.info(config, "configuration :")
     if (config == undefined) {
-        setConfig(new State([]))
+        setConfig(new State([], ""))
     }
 
     Logger.info("Writing JSON Configuration")
@@ -24,11 +23,11 @@ export default function Command() {
 }
 
 function buildUI(config: State) {
-
     return (
-        <List>
-        {config.workspaces.map((workspace:Workspace, index) => (
-            <List.Item key={index} title={workspace.name}/>
+    <List>
+        <EmptyView filter={config.filter} workspaces={config.workspaces} searchText={config.searchText} onCreate={CreateAppHandler.handleCreate} />
+        {config.workspaces.map((workspace, index) => (
+            <List.Item key={index} title={workspace.name} />
         ))}
         </List>
     )

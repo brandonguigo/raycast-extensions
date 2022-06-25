@@ -1,24 +1,30 @@
+//tslint
 import App from "../entities/app";
 import fs from "fs";
 import Logger from "../utils/logger";
 import configJson from '../../assets/config.json';
 import Workspace from "../entities/workspace";
+import Filter from "../entities/filter";
 
 class State {
    public apps: App[] = [];
    public workspaces: Workspace[] = [];
+   public searchText = "";
+   public filter?: Filter = undefined;
 
 
-   constructor(apps: App[]) {
+   constructor(apps: App[], searchText: string, filter?: Filter) {
       this.apps = apps;
+      this.searchText = searchText;
+      this.filter = filter;
    }
 
    public processWorkspaces(payload: typeof configJson.workspaces) {
       this.workspaces = payload.map((value, _) => new Workspace(
-          value.id,
-          value.name,
-          value.path,
-          value.apps.map((appPayload, _) => this.apps.find((value: App) => value.id === appPayload)).filter(element => {
+          value["id"],
+          value["name"],
+          value["path"],
+          (value["apps"] as []).map((appPayload: number, _: any) => this.apps.find((value: App) => value.id === appPayload)).filter((element: any) => {
              return element !== undefined;
           }) as App[]
       ))
@@ -47,6 +53,8 @@ class State {
              value.command,
              value.id
          )),
+          configJson.searchText,
+          configJson.filter != null ? configJson.filter : undefined
       )
       state.processWorkspaces(configJson.workspaces)
       return state
