@@ -1,7 +1,5 @@
-import App, {AppInterface} from "../../../entities/app";
+import {AppInterface} from "../../../entities/app";
 import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
-import {nanoid} from "nanoid";
-import Utils from "../../../utils/utils";
 import {useCallback} from "react";
 
 function CreateAppForm(props: { onCreate: (app: AppInterface) => void}){

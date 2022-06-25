@@ -4,7 +4,7 @@ import Logger from "./logger";
 class JsonParser {
     static parseJSONConfig(filename: string) {
         try {
-            const rawConf = fs.readFileSync(__dirname + "/" + filename, 'utf8')
+            const rawConf = fs.readFileSync(filename, 'utf8')
             const conf = JSON.parse(rawConf)
             return conf
         } catch (e: any) {
