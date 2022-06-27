@@ -45,8 +45,8 @@ function EditApp(props: { app: AppInterface, index: number, state: State, setSta
             }>
         <Form.TextField autoFocus={true} id="name" title="Name" defaultValue={name} onChange={() => setName}/>
         <Form.TextField id="command" title="Command" defaultValue={command} onChange={setCommand}/>
-        <Form.Dropdown id="iconFilename" title="App Icon" defaultValue="default">
-            <Form.DropdownItem value="defaul" title="Default" icon={Icon.Window}/>
+        <Form.Dropdown id="iconFilename" title="App Icon" defaultValue="">
+            <Form.DropdownItem value="default.png" title="Default" icon={{ source: "icons/default.png"}}/>
             {iconFiles.map((iconFile, index) => (
                 <Form.DropdownItem key={index} icon={{ source: "icons/"+iconFile }} value={iconFile} title={generateIconName(iconFile)}/>
             ))}

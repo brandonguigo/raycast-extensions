@@ -1,5 +1,5 @@
 import Logger from "./utils/logger";
-import {List, ActionPanel, Action, environment, useNavigation, Icon} from "@raycast/api";
+import {Action, ActionPanel, Icon, List, useNavigation} from "@raycast/api";
 import {CreateAppAction} from "./components";
 import {useCallback, useEffect, useState} from "react";
 import AppEmptyView from "./components/views/app/app-empty-view";
@@ -68,11 +68,18 @@ export default function Command() {
             }, [state.apps, setState]
         )
     Logger.info(state.workspaces.length)
+    function generateAppListItem(iconFilename: string) {
+        if (iconFilename == "") {
+            return Icon.Window
+        }
+        return
+    }
     return (
         <List>
             <AppEmptyView filter={undefined} apps={state.apps} searchText={state.searchText} onCreate={createHandler} />
             {state.apps.map((app, index) => (
                 <List.Item
+                    icon={{ source: "icons/"+app.iconFilename}}
                     actions={
                     <ActionPanel>
                         <ActionPanel.Section>

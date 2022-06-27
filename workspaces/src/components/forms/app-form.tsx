@@ -1,5 +1,5 @@
 import {AppInterface} from "../../entities/app";
-import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
+import {Action, ActionPanel, Form, Icon, List, useNavigation} from "@raycast/api";
 import {useCallback} from "react";
 import fs from "fs";
 import {ICONS_PATH} from "../../utils/constants";
@@ -31,7 +31,8 @@ function CreateAppForm(props: { onCreate: (app: AppInterface) => void}){
             }>
         <Form.TextField id="name" title="Name"/>
         <Form.TextField id="command" title="Command"/>
-        <Form.Dropdown id="iconFilename" title="App Icon">
+        <Form.Dropdown id="iconFilename" title="App Icon" defaultValue="">
+            <Form.DropdownItem value="default.png" title="Default" icon={{ source: "icons/default.png"}}/>
             {iconFiles.map((iconFile, index) => (
                 <Form.DropdownItem key={index} icon={{ source: "icons/"+iconFile }} value={iconFile} title={generateIconName(iconFile)}/>
             ))}
