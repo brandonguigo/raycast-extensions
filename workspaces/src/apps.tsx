@@ -63,9 +63,11 @@ export default function Command() {
                 Logger.info("Deleting Application : " + index)
                 delete state.apps[index]
                 setState((prevState) => ({...prevState, apps: state.apps}))
+                JsonParser.writeJSONConfig(CONFIG_FILE, state)
                 Logger.info(app.name + " deleted")
             }, [state.apps, setState]
         )
+    Logger.info(state.workspaces.length)
     return (
         <List>
             <AppEmptyView filter={undefined} apps={state.apps} searchText={state.searchText} onCreate={createHandler} />

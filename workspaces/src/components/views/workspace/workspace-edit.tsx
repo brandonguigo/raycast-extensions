@@ -40,6 +40,7 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
         },
         [pop]
     );
+
     Logger.info(selectedApps, "Selected apps: ")
     return (
         <Form
