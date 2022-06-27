@@ -66,28 +66,29 @@ export default function Command() {
                 Logger.info("Deleting Application : " + index)
                 delete state.workspaces[index]
                 setState((prevState) => ({...prevState, workspaces: state.workspaces}))
+                JsonParser.writeJSONConfig(CONFIG_FILE, state)
                 Logger.info(workspace.name + " deleted")
             }, [state.workspaces, setState]
         )
     return (
         <List>
             <WorkspaceEmptyView appList={state.apps} filter={undefined} workspaces={state.workspaces} searchText={state.searchText} onCreate={createHandler} />
-            {state.workspaces.map((app, index) => (
+            {state.workspaces.map((workspace, index) => (
                 <List.Item
                     actions={
                     <ActionPanel>
                         <ActionPanel.Section>
-                            <EditWorkspaceAction workspace={app} onToggle={() => editHandler(app, index)}></EditWorkspaceAction>
+                            <EditWorkspaceAction workspace={workspace} onToggle={() => editHandler(workspace, index)}></EditWorkspaceAction>
                             <Action
                                 icon={Icon.Trash}
                                 title="Delete Workspace"
-                                onAction={() => deleteHandler(app, index)}
+                                onAction={() => deleteHandler(workspace, index)}
                                 shortcut={{ modifiers : ["cmd"], key:"delete"}}
                             />
                         </ActionPanel.Section>
                     </ActionPanel>
                     }
-                    key={index} title={app.name} />
+                    key={index} title={workspace.name} />
             ))}
             <List.Item actions={<ActionPanel><CreateWorkspaceAction appList={state.apps} defaultTitle={state.searchText} onCreate={createHandler} /></ActionPanel>} title="Create Workspace"/>
         </List>

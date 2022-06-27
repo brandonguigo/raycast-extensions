@@ -42,7 +42,7 @@ export default function Command() {
         useCallback(
             (app: AppInterface) => {
                 Logger.info(app, "Add Application : ")
-                const newApps = [...state.apps, {name: app.name, command: app.command, id: Utils.generateUID()}];
+                const newApps = [...state.apps, {name: app.name, command: app.command, id: Utils.generateUID(), options: []}];
                 Logger.info(newApps.toString())
                 setState((previous) => ({...previous, apps: newApps}))
             },
@@ -63,9 +63,11 @@ export default function Command() {
                 Logger.info("Deleting Application : " + index)
                 delete state.apps[index]
                 setState((prevState) => ({...prevState, apps: state.apps}))
+                JsonParser.writeJSONConfig(CONFIG_FILE, state)
                 Logger.info(app.name + " deleted")
             }, [state.apps, setState]
         )
+    Logger.info(state.workspaces.length)
     return (
         <List>
             <AppEmptyView filter={undefined} apps={state.apps} searchText={state.searchText} onCreate={createHandler} />
