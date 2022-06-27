@@ -15,7 +15,7 @@ interface WorkspaceInterface{
     name: string;
     path: string;
     apps: WorkspaceApplication[];
-    icon?: Icon;
+    icon?: string;
     iconFilename?: string;
 }
 // class Workspace {

@@ -12,7 +12,7 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
     const { pop } = useNavigation();
 
     const [name, setName] = useState<string>(props.workspace.name);
-    const [icon, setIconState] = useState<Icon|undefined>(props.workspace.icon);
+    const [icon, setIconState] = useState<string|undefined>(props.workspace.icon);
     const setIcon = (type: string, content: Icon|string) => {
         switch (type) {
             case "icon":
@@ -34,8 +34,8 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
 
 
     const handleSubmit = useCallback(
-        (values: { name: string, path: string, apps: string[], appsOptions: boolean[][]}) => {
-            Logger.info(JSON.stringify({"apps": values.apps, "appsOptions": values.appsOptions}))
+        (values: { name: string, path: string, apps: string[], appsOptions: boolean[][], icon?: string, file?: string}) => {
+            Logger.info(JSON.stringify({"apps": values.apps, "appsOptions": values.appsOptions, "icon": icon}))
             const newWorkspaces = props.state.workspaces
             const newApps = values.apps.map((value, index) => {
                 return {
@@ -45,7 +45,14 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
                     }
                 }
             })
-            newWorkspaces[props.index] = {id: props.state.workspaces[props.index].id, name: values.name, path: values.path, apps: newApps}
+            newWorkspaces[props.index] = {
+                id: props.state.workspaces[props.index].id,
+                name: values.name,
+                path: values.path,
+                apps: newApps,
+                icon: values.icon,
+                iconFilename: values.file
+            }
             props.setState((previous: any) => ({...previous, workspaces: newWorkspaces}))
             JsonParser.writeJSONConfig(CONFIG_FILE, props.state)
             pop();
@@ -74,7 +81,7 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
                 <Form.Dropdown id="icon" title="Workspace Icon" value={iconFilename} onChange={(value) => setIcon("icon", value)}>
                     <Form.DropdownItem value={Icon.Finder} title="Default" icon={Icon.Finder}/>
                     {Object.entries(Icon).map((icon, index) => (
-                        <Form.DropdownItem key={index} icon={icon[1]} value={icon[0]} title={generateIconName(icon[1])}/>
+                        <Form.DropdownItem key={index} icon={icon[1]} value={icon[1]} title={generateIconName(icon[0])}/>
                     ))}
                 </Form.Dropdown>)
         }
@@ -84,7 +91,7 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
             navigationTitle="Edit Workspace"
             actions={
             <ActionPanel>
-                <Action.SubmitForm title="Edit Workspace" onSubmit={() => handleSubmit({name: name, path: path, apps: selectedApps, appsOptions: selectedAppsOptions})}/>
+                <Action.SubmitForm title="Edit Workspace" onSubmit={() => handleSubmit({name: name, path: path, apps: selectedApps, appsOptions: selectedAppsOptions, icon: icon, file: iconFilename})}/>
             </ActionPanel>
             }>
         <Form.Description title="Edit a new Workspace" text="Enter your Workspace name and path, then select and configure Applications."/>

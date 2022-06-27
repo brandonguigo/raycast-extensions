@@ -70,12 +70,13 @@ export default function Command() {
                 Logger.info(workspace.name + " deleted")
             }, [state.workspaces, setState]
         )
+
     return (
         <List>
             <WorkspaceEmptyView appList={state.apps} filter={undefined} workspaces={state.workspaces} searchText={state.searchText} onCreate={createHandler} />
             {state.workspaces.map((workspace, index) => (
                 <List.Item
-                    icon={workspace.icon != undefined ? workspace.icon : workspace.iconFilename != undefined ? {source : "icons/"+workspace.iconFilename} : undefined}
+                    icon={workspace.icon != undefined ? workspace.icon : workspace.iconFilename != undefined ? {source : "icons/"+workspace.iconFilename} : Icon.Finder}
                     actions={
                     <ActionPanel>
                         <ActionPanel.Section>
