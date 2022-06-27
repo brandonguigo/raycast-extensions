@@ -56,7 +56,7 @@ export default function Command() {
         useCallback(
             (workspace: WorkspaceInterface, index: number) => {
                 Logger.info(workspace,"Pushing Workspace editing view :")
-                push((<EditWorkspace workspace={workspace} state={state} setState={setState} index={index}></EditWorkspace>))
+                push((<EditWorkspace workspace={workspace} state={state} setState={setState} appList={state.apps} index={index}></EditWorkspace>))
             }
         ,[state.apps, setState])
 
