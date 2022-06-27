@@ -17,9 +17,11 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
         switch (type) {
             case "icon":
                 setIconState(content as Icon)
+                setIconFilenameState(undefined)
                 break;
             case "file":
                 setIconFilenameState(content as string)
+                setIconState(undefined)
                 break;
         }
     }
@@ -35,7 +37,7 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
 
     const handleSubmit = useCallback(
         (values: { name: string, path: string, apps: string[], appsOptions: boolean[][], icon?: string, file?: string}) => {
-            Logger.info(JSON.stringify({"apps": values.apps, "appsOptions": values.appsOptions, "icon": icon}))
+            Logger.info(JSON.stringify({"apps": values.apps, "appsOptions": values.appsOptions, "file": values.file}))
             const newWorkspaces = props.state.workspaces
             const newApps = values.apps.map((value, index) => {
                 return {
@@ -53,6 +55,7 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
                 icon: values.icon,
                 iconFilename: values.file
             }
+            Logger.info(newWorkspaces[props.index].iconFilename, "After : ")
             props.setState((previous: any) => ({...previous, workspaces: newWorkspaces}))
             JsonParser.writeJSONConfig(CONFIG_FILE, props.state)
             pop();
