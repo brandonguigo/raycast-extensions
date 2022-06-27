@@ -95,7 +95,7 @@ export default function Command() {
                     }
                     key={index} title={app.name} />
             ))}
-            <List.Item actions={<ActionPanel><CreateAppAction defaultTitle={state.searchText} onCreate={createHandler} /></ActionPanel>} title="Create Application"/>
+            <List.Item actions={<ActionPanel><CreateAppAction defaultTitle={state.searchText} onCreate={createHandler} /></ActionPanel>} icon={Icon.Plus} title="Create Application"/>
         </List>
     )
 }

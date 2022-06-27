@@ -92,7 +92,7 @@ export default function Command() {
                     }
                     key={index} title={workspace.name} />
             ))}
-            <List.Item actions={<ActionPanel><CreateWorkspaceAction appList={state.apps} defaultTitle={state.searchText} onCreate={createHandler} /></ActionPanel>} title="Create Workspace"/>
+            <List.Item actions={<ActionPanel><CreateWorkspaceAction appList={state.apps} defaultTitle={state.searchText} onCreate={createHandler} /></ActionPanel>} icon={Icon.Plus} title="Create Workspace"/>
         </List>
     )
 }
