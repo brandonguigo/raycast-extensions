@@ -18,10 +18,10 @@ function EditApp(props: { app: AppInterface, index: number, state: State, setSta
 
 
     const handleSubmit = useCallback(
-        (values: { name: string, command: string }) => {
+        (values: { name: string, command: string, iconFilename: string }) => {
             Logger.info(JSON.stringify({  name: values.name, command: values.command }), "New app saving:")
             const newApps = props.state.apps
-            newApps[props.index] = {...newApps[props.index], name: values.name, command: values.command}
+            newApps[props.index] = {...newApps[props.index], name: values.name, command: values.command, iconFilename: values.iconFilename}
             props.setState((previous: State) => ({...previous, apps: newApps}))
             JsonParser.writeJSONConfig(CONFIG_FILE, props.state)
             pop();
