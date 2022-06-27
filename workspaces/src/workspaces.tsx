@@ -9,6 +9,11 @@ import {State} from "./entities/state";
 import JsonParser from "./utils/json-parser";
 import EditApp from "./components/views/app/app-edit";
 import EditAppAction from "./components/actions/app/edit";
+import {WorkspaceInterface} from "./entities/workspace";
+import EditWorkspace from "./components/views/workspace/workspace-edit";
+import WorkspaceEmptyView from "./components/views/workspace/workspace-empty-view";
+import EditWorkspaceAction from "./components/actions/workspace/edit";
+import CreateWorkspaceAction from "./components/actions/workspace/create";
 
 
 export const CONFIG_FILE = environment.assetsPath + "/config.json"
@@ -21,7 +26,7 @@ export default function Command() {
 
     useEffect(() => {
         (() => {
-            if (state.apps.length == 0) {
+            if (state.workspaces.length == 0) {
                 Logger.info("No Applications detected, trying to parse JSON Configuration")
                 const importedState = JsonParser.parseJSONConfig(CONFIG_FILE)
                 setState((previous) => ({...previous,
@@ -36,47 +41,45 @@ export default function Command() {
     useEffect(() => {
         Logger.info("Writing configuration at : " + CONFIG_FILE)
         JsonParser.writeJSONConfig(CONFIG_FILE, state)
-    }, [state.apps]);
-
-    Logger.info(state.apps.length, "test: ")
+    }, [state.workspaces]);
 
     const createHandler =
         useCallback(
-            (app: AppInterface) => {
-                Logger.info(app, "Add Application : ")
-                const newApps = [...state.apps, {name: app.name, command: app.command, id: Utils.generateUID()}];
-                Logger.info(newApps.toString())
-                setState((previous) => ({...previous, apps: newApps}))
+            (workspace: WorkspaceInterface) => {
+                Logger.info(workspace, "Add Workspace : ")
+                const newWorkspaces = [...state.workspaces, {name: workspace.name, path: workspace.path, apps: workspace.apps, id: Utils.generateUID()}];
+                Logger.info(newWorkspaces.toString())
+                setState((previous) => ({...previous, workspaces: newWorkspaces}))
             },
-            [state.apps, setState]
+            [state.workspaces, setState]
         );
 
     const editHandler =
         useCallback(
-            (app: AppInterface, index: number) => {
-                Logger.info(app,"Pushing Application editing view :")
-                push((<EditApp app={app} state={state} setState={setState} index={index}></EditApp>))
+            (workspace: WorkspaceInterface, index: number) => {
+                Logger.info(workspace,"Pushing Workspace editing view :")
+                push((<EditWorkspace workspace={workspace} state={state} setState={setState} index={index}></EditWorkspace>))
             }
         ,[state.apps, setState])
 
     const deleteHandler =
         useCallback(
-            (app: AppInterface, index: number) => {
+            (workspace: WorkspaceInterface, index: number) => {
                 Logger.info("Deleting Application : " + index)
-                delete state.apps[index]
-                setState((prevState) => ({...prevState, apps: state.apps}))
-                Logger.info(app.name + " deleted")
-            }, [state.apps, setState]
+                delete state.workspaces[index]
+                setState((prevState) => ({...prevState, workspaces: state.workspaces}))
+                Logger.info(workspace.name + " deleted")
+            }, [state.workspaces, setState]
         )
     return (
         <List>
-            <AppEmptyView filter={undefined} apps={state.apps} searchText={state.searchText} onCreate={createHandler} />
-            {state.apps.map((app, index) => (
+            <WorkspaceEmptyView appList={state.apps} filter={undefined} workspaces={state.workspaces} searchText={state.searchText} onCreate={createHandler} />
+            {state.workspaces.map((app, index) => (
                 <List.Item
                     actions={
                     <ActionPanel>
                         <ActionPanel.Section>
-                            <EditAppAction app={app} onToggle={() => editHandler(app, index)}></EditAppAction>
+                            <EditWorkspaceAction workspace={app} onToggle={() => editHandler(app, index)}></EditWorkspaceAction>
                             <Action
                                 icon={Icon.Trash}
                                 title="Delete Application"
@@ -88,7 +91,7 @@ export default function Command() {
                     }
                     key={index} title={app.name} />
             ))}
-            <List.Item actions={<ActionPanel><CreateAppAction defaultTitle={state.searchText} onCreate={createHandler} /></ActionPanel>} title="Create Application"/>
+            <List.Item actions={<ActionPanel><CreateWorkspaceAction appList={state.apps} defaultTitle={state.searchText} onCreate={createHandler} /></ActionPanel>} title="Create Workspace"/>
         </List>
     )
 }

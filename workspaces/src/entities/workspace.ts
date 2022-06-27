@@ -1,7 +1,6 @@
 import {AppInterface} from "./app";
 
-interface WorkspaceInterface {
-    id: number;
+interface WorkspaceInterface{
     name: string;
     path: string;
     apps: AppInterface[];

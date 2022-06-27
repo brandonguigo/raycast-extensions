@@ -1,8 +1,5 @@
-import configJson from '../../assets/config.json';
-import {nanoid} from "nanoid";
-import Utils from "../utils/utils";
-
 interface AppInterface {
+    id: number;
     name: string;
     command: string;
 }
