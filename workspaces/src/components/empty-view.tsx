@@ -1,6 +1,6 @@
 import { ActionPanel, List } from "@raycast/api";
 import {AppInterface} from "../entities/app";
-import CreateAppAction from "./app/create/action";
+import CreateAppAction from "./actions/app/create";
 import Logger from "../utils/logger";
 
 function EmptyView(props: { content: any[]; filter?: any; searchText: string; contentType: string; onCreate: (app: AppInterface) => void }) {
