@@ -1,10 +1,19 @@
 import {AppInterface} from "./app";
 
+interface WorkspaceApplication {
+    appId: string;
+    options: WorkspaceApplicationOption;
+}
+
+interface WorkspaceApplicationOption {
+    automaticLaunch: boolean;
+}
+
 interface WorkspaceInterface{
     id: string;
     name: string;
     path: string;
-    apps: AppInterface[];
+    apps: WorkspaceApplication[];
 }
 // class Workspace {
 //     public id: number;
@@ -40,4 +49,4 @@ interface WorkspaceInterface{
 // }
 //
 // export default Workspace;
-export type {WorkspaceInterface};
+export type {WorkspaceInterface, WorkspaceApplication, WorkspaceApplicationOption};

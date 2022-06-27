@@ -5,6 +5,7 @@ import {WorkspaceInterface} from "../../entities/workspace";
 import Logger from "../../utils/logger";
 import Utils from "../../utils/utils";
 import {WorkspaceAppSettings} from "../../utils/constants";
+import {inflate} from "zlib";
 
 function CreateWorkspaceForm(props: {appList: AppInterface[], onCreate: (workspace: WorkspaceInterface) => void}){
     const { pop } = useNavigation();
@@ -18,10 +19,15 @@ function CreateWorkspaceForm(props: {appList: AppInterface[], onCreate: (workspa
     const handleSubmit = useCallback(
         (values: { name: string, path: string, apps: string[], appsOptions: boolean[][]}) => {
             Logger.info(JSON.stringify({"apps": values.apps, "appsOptions": values.appsOptions}))
-            const parsedApps = values.apps.map((appId) => {
-                return props.appList.find((value) => value.id == appId)
-            }) as AppInterface[]
-            props.onCreate({  name: values.name, path: values.path, apps: parsedApps, id: Utils.generateUID() });
+            const workspaceApps = values.apps.map((value, index) => {
+                return {
+                    "appId": value,
+                    "options": {
+                        "automaticLaunch": values.appsOptions[index][0]
+                    }
+                }
+            })
+            props.onCreate({  name: values.name, path: values.path, apps: workspaceApps, id: Utils.generateUID() });
             pop();
         },
         [props.onCreate, pop]

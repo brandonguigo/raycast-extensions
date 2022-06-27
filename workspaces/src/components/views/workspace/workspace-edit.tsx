@@ -3,7 +3,7 @@ import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
 import {useCallback, useEffect} from "react";
 import Logger from "../../../utils/logger";
 import {State} from "../../../entities/state";
-import {WorkspaceInterface} from "../../../entities/workspace";
+import {WorkspaceApplication, WorkspaceInterface} from "../../../entities/workspace";
 
 function EditWorkspace(props: { workspace: WorkspaceInterface, index: number, state: State, setState: any}){
     const { pop } = useNavigation();
@@ -14,7 +14,7 @@ function EditWorkspace(props: { workspace: WorkspaceInterface, index: number, st
 
     const setName = (newName: string) => name = newName;
     const setPath= (newPath: string) => path = newPath;
-    const setApps= (newApps: AppInterface[]) => apps = newApps;
+    const setApps= (newApps: WorkspaceApplication[]) => apps = newApps;
 
 
     const handleSubmit = useCallback(
