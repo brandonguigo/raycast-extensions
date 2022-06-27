@@ -1,10 +1,10 @@
-import {AppInterface} from "./entities/app";
+import {AppInterface} from "../../../entities/app";
 import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
 import {useCallback, useEffect} from "react";
-import Logger from "./utils/logger";
-import {State} from "./entities/state";
-import JsonParser from "./utils/json-parser";
-import {CONFIG_FILE} from "./apps";
+import Logger from "../../../utils/logger";
+import {State} from "../../../entities/state";
+import JsonParser from "../../../utils/json-parser";
+import {CONFIG_FILE} from "../../../utils/constants";
 
 function EditApp(props: { app: AppInterface, index: number, state: State, setState: any}){
     const { pop } = useNavigation();
@@ -30,6 +30,7 @@ function EditApp(props: { app: AppInterface, index: number, state: State, setSta
 
     return (
         <Form
+            navigationTitle="Edit Application"
             actions={
             <ActionPanel>
                 <Action.SubmitForm title="Edit App" onSubmit={handleSubmit}/>

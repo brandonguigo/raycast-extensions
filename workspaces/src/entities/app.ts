@@ -1,10 +1,8 @@
-import configJson from '../../assets/config.json';
-import {nanoid} from "nanoid";
-import Utils from "../utils/utils";
-
 interface AppInterface {
+    id: string;
     name: string;
     command: string;
+    options: boolean[]
 }
 // class App {
 //     public id: number = Utils.generateUID();
