@@ -1,5 +1,5 @@
 import Logger from "./utils/logger";
-import {List, ActionPanel, environment, useNavigation} from "@raycast/api";
+import {List, ActionPanel, Action, environment, useNavigation, Icon} from "@raycast/api";
 import {CreateAppAction} from "./components";
 import {useCallback, useEffect, useState} from "react";
 import EmptyView from "./components/empty-view";
@@ -7,7 +7,7 @@ import {AppInterface} from "./entities/app";
 import Utils from "./utils/utils";
 import {State} from "./entities/state";
 import JsonParser from "./utils/json-parser";
-import EditAppToggle from "./components/app/edit/toggle";
+import EditAppAction from "./components/actions/app/edit";
 import EditApp from "./edit";
 
 
@@ -58,6 +58,17 @@ export default function Command() {
                 push((<EditApp app={app} state={state} setState={setState} index={index}></EditApp>))
             }
         ,[state.apps, setState])
+
+    const deleteHandler =
+        useCallback(
+            (app: AppInterface, index: number) => {
+                Logger.info("Deleting Application : " + index)
+                delete state.apps[index]
+                
+                setState((prevState) => ({...prevState, apps: state.apps}))
+                Logger.info(app.name + " deleted")
+            }, [state.apps, setState]
+        )
     return (
         <List>
             <EmptyView contentType="Applications" filter={undefined} content={state.apps} searchText={state.searchText} onCreate={createHandler} />
@@ -66,7 +77,12 @@ export default function Command() {
                     actions={
                     <ActionPanel>
                         <ActionPanel.Section>
-                            <EditAppToggle app={app} onToggle={() => editHandler(app, index)}></EditAppToggle>
+                            <EditAppAction app={app} onToggle={() => editHandler(app, index)}></EditAppAction>
+                            <Action
+                                icon={Icon.Trash}
+                                title="Delete Application"
+                                onAction={() => deleteHandler(app, index)}
+                            />
                         </ActionPanel.Section>
                     </ActionPanel>
                     }

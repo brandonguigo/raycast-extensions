@@ -1,4 +1,4 @@
-import {AppInterface} from "../../../entities/app";
+import {AppInterface} from "../../entities/app";
 import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
 import {useCallback} from "react";
 

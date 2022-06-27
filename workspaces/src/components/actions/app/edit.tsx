@@ -1,7 +1,7 @@
 import {AppInterface} from "../../../entities/app";
 import {Action, Icon} from "@raycast/api";
 
-function EditAppToggle(props: {app: AppInterface, onToggle: () => void}) {
+function EditAppAction(props: {app: AppInterface, onToggle: () => void}) {
     return (
         <Action
             icon={Icon.Pencil}
@@ -11,4 +11,4 @@ function EditAppToggle(props: {app: AppInterface, onToggle: () => void}) {
 );
 }
 
-export default EditAppToggle
+export default EditAppAction

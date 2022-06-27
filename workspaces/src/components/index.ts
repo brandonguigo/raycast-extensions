@@ -1,4 +1,4 @@
-import CreateAppAction from "./app/create/action";
-import CreateAppForm from "./app/create/form";
+import CreateAppAction from "./actions/app/create";
+import CreateAppForm from "./forms/app-form";
 
 export { CreateAppAction, CreateAppForm}
