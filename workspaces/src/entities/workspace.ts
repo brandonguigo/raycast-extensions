@@ -1,4 +1,5 @@
 import {AppInterface} from "./app";
+import {Icon} from "@raycast/api";
 
 interface WorkspaceApplication {
     appId: string;
@@ -14,6 +15,8 @@ interface WorkspaceInterface{
     name: string;
     path: string;
     apps: WorkspaceApplication[];
+    icon?: Icon;
+    iconFilename?: string;
 }
 // class Workspace {
 //     public id: number;
