@@ -1,19 +1,31 @@
-import {Action, ActionPanel, Form, useNavigation} from "@raycast/api";
+import {Action, ActionPanel, Form, Icon, useNavigation} from "@raycast/api";
 import {useCallback, useState} from "react";
-
-import {inflate} from "zlib";
 import {WorkspaceInterface} from "../../../entities/workspace";
 import {AppInterface} from "../../../entities/app";
 import Logger from "../../../utils/logger";
 import {State} from "../../../entities/state";
-import {CONFIG_FILE, WorkspaceAppSettings} from "../../../utils/constants";
+import {CONFIG_FILE, ICONS_PATH, WorkspaceAppSettings} from "../../../utils/constants";
 import JsonParser from "../../../utils/json-parser";
+import fs from "fs";
 
 function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppInterface[], index: number;state: State, setState: any}){
     const { pop } = useNavigation();
 
     const [name, setName] = useState<string>(props.workspace.name);
+    const [icon, setIconState] = useState<Icon|undefined>(props.workspace.icon);
+    const setIcon = (type: string, content: Icon|string) => {
+        switch (type) {
+            case "icon":
+                setIconState(content as Icon)
+                break;
+            case "file":
+                setIconFilenameState(content as string)
+                break;
+        }
+    }
+    const [iconFilename, setIconFilenameState] = useState<string|undefined>(props.workspace.iconFilename);
     const [path, setPath] = useState<string>(props.workspace.path);
+    const [customIcons, setCustomIcons] = useState<boolean>(false);
     const [selectedApps, setSelectedApps] = useState<string[]>(props.workspace.apps.map((value) => value.appId))
     const [selectedAppsOptions, setSelectedAppsOptions] = useState<boolean[][]>(props.workspace.apps.map((value: { options: { automaticLaunch: boolean; }; }, _: any) => {
         if (value.options != undefined) return [value.options.automaticLaunch]
@@ -42,6 +54,31 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
     );
 
     Logger.info(selectedApps, "Selected apps: ")
+    const iconFiles = fs.readdirSync(ICONS_PATH, 'utf8')
+    function generateIconName(iconName: string) {
+        iconName = iconName.split('.')[0]
+        return iconName.charAt(0).toUpperCase() + iconName.slice(1)
+    }
+
+    function generateIconPicker(customIcons: boolean) {
+        if (customIcons){
+            return (
+                <Form.Dropdown id="file" title="Workspace Icon" value={iconFilename} onChange={(value) => setIcon("file", value)}>
+                    <Form.DropdownItem value="default.png" title="Default" icon={{ source: "icons/default.png"}}/>
+                    {iconFiles.map((iconFile, index) => (
+                        <Form.DropdownItem key={index} icon={{ source: "icons/"+iconFile }} value={iconFile} title={generateIconName(iconFile)}/>
+                    ))}
+                </Form.Dropdown>)
+        } else {
+            return (
+                <Form.Dropdown id="icon" title="Workspace Icon" value={iconFilename} onChange={(value) => setIcon("icon", value)}>
+                    <Form.DropdownItem value={Icon.Finder} title="Default" icon={Icon.Finder}/>
+                    {Object.entries(Icon).map((icon, index) => (
+                        <Form.DropdownItem key={index} icon={icon[1]} value={icon[0]} title={generateIconName(icon[1])}/>
+                    ))}
+                </Form.Dropdown>)
+        }
+    }
     return (
         <Form
             navigationTitle="Edit Workspace"
@@ -51,6 +88,8 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
             </ActionPanel>
             }>
         <Form.Description title="Edit a new Workspace" text="Enter your Workspace name and path, then select and configure Applications."/>
+        <Form.Checkbox id="customIcons" label="Use custom icons" value={customIcons} onChange={setCustomIcons}/>
+            {generateIconPicker(customIcons)}
         <Form.TextField id="name" title="Name" value={name} onChange={setName}/>
         <Form.TextField id="path" title="Path" value={path} onChange={setPath}/>
         <Form.TagPicker id="apps" title="Applications" value={selectedApps} onChange={setSelectedApps}>
