@@ -14,9 +14,7 @@ import EditWorkspace from "./components/views/workspace/workspace-edit";
 import WorkspaceEmptyView from "./components/views/workspace/workspace-empty-view";
 import EditWorkspaceAction from "./components/actions/workspace/edit";
 import CreateWorkspaceAction from "./components/actions/workspace/create";
-
-
-export const CONFIG_FILE = environment.assetsPath + "/config.json"
+import {CONFIG_FILE} from "./utils/constants";
 
 export default function Command() {
     Logger.info("Parsing JSON Configuration")
@@ -82,7 +80,7 @@ export default function Command() {
                             <EditWorkspaceAction workspace={app} onToggle={() => editHandler(app, index)}></EditWorkspaceAction>
                             <Action
                                 icon={Icon.Trash}
-                                title="Delete Application"
+                                title="Delete Workspace"
                                 onAction={() => deleteHandler(app, index)}
                                 shortcut={{ modifiers : ["cmd"], key:"delete"}}
                             />

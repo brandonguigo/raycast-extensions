@@ -1,5 +1,5 @@
 interface AppInterface {
-    id: number;
+    id: string;
     name: string;
     command: string;
 }

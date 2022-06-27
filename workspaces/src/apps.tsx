@@ -9,9 +9,7 @@ import {State} from "./entities/state";
 import JsonParser from "./utils/json-parser";
 import EditApp from "./components/views/app/app-edit";
 import EditAppAction from "./components/actions/app/edit";
-
-
-export const CONFIG_FILE = environment.assetsPath + "/config.json"
+import {CONFIG_FILE} from "./utils/constants";
 
 export default function Command() {
     Logger.info("Parsing JSON Configuration")

@@ -3,8 +3,6 @@ import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
 import {useCallback, useEffect} from "react";
 import Logger from "../../../utils/logger";
 import {State} from "../../../entities/state";
-import JsonParser from "../../../utils/json-parser";
-import {CONFIG_FILE} from "../../../apps";
 import {WorkspaceInterface} from "../../../entities/workspace";
 
 function EditWorkspace(props: { workspace: WorkspaceInterface, index: number, state: State, setState: any}){

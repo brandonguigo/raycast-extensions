@@ -1,6 +1,7 @@
 import {AppInterface} from "./app";
 
 interface WorkspaceInterface{
+    id: string;
     name: string;
     path: string;
     apps: AppInterface[];
