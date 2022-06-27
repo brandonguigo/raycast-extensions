@@ -42,7 +42,7 @@ export default function Command() {
         useCallback(
             (app: AppInterface) => {
                 Logger.info(app, "Add Application : ")
-                const newApps = [...state.apps, {name: app.name, command: app.command, id: Utils.generateUID(), options: []}];
+                const newApps = [...state.apps, {name: app.name, command: app.command, id: Utils.generateUID(), iconFilename: app.iconFilename}];
                 Logger.info(newApps.toString())
                 setState((previous) => ({...previous, apps: newApps}))
             },

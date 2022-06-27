@@ -1,10 +1,11 @@
 import {AppInterface} from "../../../entities/app";
-import {Action, ActionPanel, Form, List, useNavigation} from "@raycast/api";
+import {Action, ActionPanel, Form, Icon, List, useNavigation} from "@raycast/api";
 import {useCallback, useEffect} from "react";
 import Logger from "../../../utils/logger";
 import {State} from "../../../entities/state";
 import JsonParser from "../../../utils/json-parser";
-import {CONFIG_FILE} from "../../../utils/constants";
+import {CONFIG_FILE, ICONS_PATH} from "../../../utils/constants";
+import fs from "fs";
 
 function EditApp(props: { app: AppInterface, index: number, state: State, setState: any}){
     const { pop } = useNavigation();
@@ -28,6 +29,12 @@ function EditApp(props: { app: AppInterface, index: number, state: State, setSta
         [pop]
     );
 
+    const iconFiles = fs.readdirSync(ICONS_PATH, 'utf8')
+    function generateIconName(iconName: string) {
+        iconName = iconName.split('.')[0]
+        return iconName.charAt(0).toUpperCase() + iconName.slice(1)
+    }
+
     return (
         <Form
             navigationTitle="Edit Application"
@@ -38,6 +45,12 @@ function EditApp(props: { app: AppInterface, index: number, state: State, setSta
             }>
         <Form.TextField autoFocus={true} id="name" title="Name" defaultValue={name} onChange={() => setName}/>
         <Form.TextField id="command" title="Command" defaultValue={command} onChange={setCommand}/>
+        <Form.Dropdown id="iconFilename" title="App Icon" defaultValue="default">
+            <Form.DropdownItem value="defaul" title="Default" icon={Icon.Window}/>
+            {iconFiles.map((iconFile, index) => (
+                <Form.DropdownItem key={index} icon={{ source: "icons/"+iconFile }} value={iconFile} title={generateIconName(iconFile)}/>
+            ))}
+        </Form.Dropdown>
         </Form>
 );
 }

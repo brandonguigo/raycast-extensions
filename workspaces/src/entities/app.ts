@@ -2,7 +2,7 @@ interface AppInterface {
     id: string;
     name: string;
     command: string;
-    options: boolean[]
+    iconFilename: string;
 }
 // class App {
 //     public id: number = Utils.generateUID();
