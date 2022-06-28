@@ -15,6 +15,8 @@ import WorkspaceEmptyView from "./components/views/workspace/workspace-empty-vie
 import EditWorkspaceAction from "./components/actions/workspace/edit";
 import CreateWorkspaceAction from "./components/actions/workspace/create";
 import {CONFIG_FILE} from "./utils/constants";
+import DeleteWorkspaceAction from "./components/actions/workspace/delete";
+import OpenWorkspaceAction from "./components/actions/workspace/open";
 
 export default function Command() {
     Logger.info("Parsing JSON Configuration")
@@ -71,6 +73,12 @@ export default function Command() {
             }, [state.workspaces, setState]
         )
 
+    const openHandler = useCallback(
+        (workspace: WorkspaceInterface, index: number) => {
+            Logger.info("Opening workspace : " + workspace.name)
+        }, []
+    )
+
     return (
         <List>
             <WorkspaceEmptyView appList={state.apps} filter={undefined} workspaces={state.workspaces} searchText={state.searchText} onCreate={createHandler} />
@@ -80,13 +88,9 @@ export default function Command() {
                     actions={
                     <ActionPanel>
                         <ActionPanel.Section>
+                            <OpenWorkspaceAction workspace={workspace} index={index} onToggle={openHandler}></OpenWorkspaceAction>
                             <EditWorkspaceAction workspace={workspace} onToggle={() => editHandler(workspace, index)}></EditWorkspaceAction>
-                            <Action
-                                icon={Icon.Trash}
-                                title="Delete Workspace"
-                                onAction={() => deleteHandler(workspace, index)}
-                                shortcut={{ modifiers : ["cmd"], key:"delete"}}
-                            />
+                            <DeleteWorkspaceAction workspace={workspace} index={index} onToggle={deleteHandler}></DeleteWorkspaceAction>
                         </ActionPanel.Section>
                     </ActionPanel>
                     }

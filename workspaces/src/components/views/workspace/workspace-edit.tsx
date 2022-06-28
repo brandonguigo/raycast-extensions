@@ -98,9 +98,9 @@ function EditWorkspaceForm(props: {workspace: WorkspaceInterface, appList: AppIn
             </ActionPanel>
             }>
         <Form.Description title="Edit a new Workspace" text="Enter your Workspace name and path, then select and configure Applications."/>
-        <Form.Checkbox id="customIcons" label="Use custom icons" value={customIcons} onChange={setCustomIcons}/>
-            {generateIconPicker(customIcons)}
         <Form.TextField id="name" title="Name" value={name} onChange={setName}/>
+        <Form.Checkbox id="customIcons" label="Use custom icons" value={customIcons} onChange={setCustomIcons}/>
+        {generateIconPicker(customIcons)}
         <Form.TextField id="path" title="Path" value={path} onChange={setPath}/>
         <Form.TagPicker id="apps" title="Applications" value={selectedApps} onChange={setSelectedApps}>
             {props.appList.map((app: AppInterface) => {
