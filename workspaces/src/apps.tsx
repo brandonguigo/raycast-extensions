@@ -10,6 +10,8 @@ import JsonParser from "./utils/json-parser";
 import EditApp from "./components/views/app/app-edit";
 import EditAppAction from "./components/actions/app/edit";
 import {CONFIG_FILE} from "./utils/constants";
+import DeleteAppAction from "./components/actions/app/delete";
+import OpenAppAction from "./components/actions/app/open";
 
 export default function Command() {
     Logger.info("Parsing JSON Configuration")
@@ -67,6 +69,11 @@ export default function Command() {
                 Logger.info(app.name + " deleted")
             }, [state.apps, setState]
         )
+
+    const openHandler = useCallback((app: AppInterface, index: number) => {
+        Logger.info("Opening app : " + app.name)
+
+    }, [])
     Logger.info(state.workspaces.length)
     function generateAppListItem(iconFilename: string) {
         if (iconFilename == "") {
@@ -83,13 +90,9 @@ export default function Command() {
                     actions={
                     <ActionPanel>
                         <ActionPanel.Section>
+                            <OpenAppAction app={app} index={index} onToggle={openHandler}></OpenAppAction>
                             <EditAppAction app={app} onToggle={() => editHandler(app, index)}></EditAppAction>
-                            <Action
-                                icon={Icon.Trash}
-                                title="Delete Application"
-                                onAction={() => deleteHandler(app, index)}
-                                shortcut={{ modifiers : ["cmd"], key:"delete"}}
-                            />
+                            <DeleteAppAction app={app} index={index} onToggle={deleteHandler}></DeleteAppAction>
                         </ActionPanel.Section>
                     </ActionPanel>
                     }
